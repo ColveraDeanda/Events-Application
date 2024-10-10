@@ -75,8 +75,11 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
 
         const user = await UserModel.findOne({ username: username }).select('+authentication.salt +authentication.password').exec();
 
-        if (!user || !user.authentication || !user.authentication.salt || user.authentication.password !== authentication(user.authentication.salt, password)) {
-            return res.sendStatus(403);
+        if (!user) {
+            throw createHttpError(404, "User not registered");
+        }
+        if (!user.authentication || !user.authentication.salt || user.authentication.password !== authentication(user.authentication.salt, password)) {
+            throw createHttpError(403, "Invalid credentials");
         }
 
         req.session.userId = user._id;
