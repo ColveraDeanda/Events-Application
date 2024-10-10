@@ -6,11 +6,26 @@ import { assertIsDefined } from "../util/assertIsDefined";
 
 export const getEvents: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userId;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const skip = (page - 1) * limit;
+
     try {
         assertIsDefined(authenticatedUserId);
 
-        const event = await EventModel.find({ userId: authenticatedUserId }).exec();
-        res.status(200).json(event);
+        const [events, totalEvents] = await Promise.all([
+            EventModel.find({ userId: authenticatedUserId })
+                .skip(skip)
+                .limit(limit)
+                .exec(),
+            EventModel.countDocuments({ userId: authenticatedUserId }).exec()
+        ]);
+        const totalPages = Math.ceil(totalEvents / limit);
+        res.status(200).json({
+            events,
+            totalPages,
+            currentPage: page,
+        });
     } catch (err) {
         next(err);
     }
