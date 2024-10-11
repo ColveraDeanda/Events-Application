@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { User } from "../../models/user";
 import * as UsersApi from "../../network/users_api";
 import Swal from "sweetalert2";
@@ -23,6 +24,9 @@ const NavBarLoggedInView = ({ user, onLogoutSuccessful }: NavBarLoggedInViewProp
 
     return (
       <>
+        <Link to="/favorites" className="hover:underline text-white">
+          Favorites
+        </Link>
         <span className="mr-2">Signed in as: {user.username}</span>
         <button
           onClick={logout}

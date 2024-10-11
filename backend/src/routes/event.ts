@@ -3,6 +3,8 @@ import * as EventController from "../controllers/event";
 
 const router = express.Router();
 
+router.get("/all", EventController.getAllEvents);
+
 /**
  * Get events
  * @swagger
@@ -36,7 +38,7 @@ const router = express.Router();
  *      security:
  *        - basicAuth: []
  */
-router.get("/", EventController.getEvents);
+router.get("/:page", EventController.getEvents);
 
 /**
  * @swagger

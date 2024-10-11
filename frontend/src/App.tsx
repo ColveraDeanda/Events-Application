@@ -5,6 +5,7 @@ import SignUpModal from "./components/Auth/SignUpModal";
 import { User } from "./models/user";
 import Navbar from "./components/NavBar/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import FavoritePage from "./pages/favorites";
 import EventPage from "./pages/events";
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
 		/>
 		<Routes>
 		  <Route path="/" element={<EventPage loggedInUser={loggedInUser}/>}/>
+		  <Route path="/favorites" element={<FavoritePage loggedInUser={loggedInUser} />} />
 		</Routes>
 		{showSignUpModal && (
 		  <SignUpModal
