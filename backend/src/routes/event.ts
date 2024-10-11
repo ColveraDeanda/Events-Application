@@ -39,55 +39,6 @@ const router = express.Router();
 router.get("/", EventController.getEvents);
 
 /**
- * Get events
- * @swagger
- * /events/{id}:
- *    get:
- *      tags:
- *        - events
- *      summary: "Retreive a single event specified by Id"
- *      description: This endpoint will list an event by id.
- *      parameters:
- *       - name: eventID
- *         in: path
- *         description: ID of event to return
- *         required: true
- *         schema:
- *           type: integer
- *           format: int64
- *      requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/event'
- *         application/xml:
- *           schema:
- *             $ref: '#/components/schemas/event'
- *         application/x-www-form-urlencoded:
- *           schema:
- *             $ref: '#/components/schemas/event'
- *      responses:
- *         '200':
- *           description: Successful operation
- *           content:
- *               application/json:
- *                 schema:
- *                   $ref: '#/components/schemas/event'          
- *               application/xml:
- *                schema:
- *                   $ref: '#/components/schemas/event'
- *         '400':
- *            description: Invalid ID supplied
- *         '404':
- *            description: Event not found
- *         '401':
- *            description: Cannot access this event
- *      security:
- *        - basicAuth: []
- */
-router.get("/:id", EventController.getEvent);
-
-/**
  * @swagger
  * /events:
  *   post:

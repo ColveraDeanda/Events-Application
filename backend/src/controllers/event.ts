@@ -6,8 +6,8 @@ import { assertIsDefined } from "../util/assertIsDefined";
 
 export const getEvents: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userId;
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 20;
+    const page = parseInt(req.params.page) || 1;
+    const limit = 20;
     const skip = (page - 1) * limit;
 
     try {
@@ -20,7 +20,9 @@ export const getEvents: RequestHandler = async (req, res, next) => {
                 .exec(),
             EventModel.countDocuments({ userId: authenticatedUserId }).exec()
         ]);
+
         const totalPages = Math.ceil(totalEvents / limit);
+
         res.status(200).json({
             events,
             totalPages,
@@ -31,30 +33,19 @@ export const getEvents: RequestHandler = async (req, res, next) => {
     }
 };
 
-export const getEvent: RequestHandler = async (req, res, next) => {
-    const eventId = req.params.id;
+export const getAllEvents: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userId;
-    try{
+
+    try {
         assertIsDefined(authenticatedUserId);
-        if(!mongoose.isValidObjectId(eventId)) {
-            throw createHttpError(400, "Invalid ID");
-        }
 
-        const event = await EventModel.findById(eventId).exec();
+        const events = await EventModel.find({ userId: authenticatedUserId }).exec();
 
-        if (!event) {
-            throw createHttpError(404, "Event not found");
-        }
-
-        if (!event.userId.equals(authenticatedUserId)) {
-            throw createHttpError(401, "You cannot access this event");
-        }
-
-        res.status(200).json(event);
+        res.status(200).json(events);
     } catch (err) {
         next(err);
     }
-};
+}
 
 interface CreateEventBody {
     name?: string,
@@ -89,31 +80,6 @@ export const createEvent: RequestHandler<unknown, unknown, CreateEventBody, unkn
 
     try {
         assertIsDefined(authenticatedUserId);
-
-        if(!name) {
-            throw createHttpError(400, "Event should have name");
-        }
-        if(!image) {
-            throw createHttpError(400, "Event should have image");
-        }
-        if(!url) {
-            throw createHttpError(400, "Event should have url");
-        }
-        if(!type) {
-            throw createHttpError(400, "Event should have type");
-        }
-        if(!date) {
-            throw createHttpError(400, "Event should have date");
-        }
-        if(!venue) {
-            throw createHttpError(400, "Event should have venue");
-        }
-        if(!classifications) {
-            throw createHttpError(400, "Event should have classifications");
-        }
-        if(!priceRanges) {
-            throw createHttpError(400, "Event should have priceRanges");
-        }
 
         const newEvent = await EventModel.create({
             userId: authenticatedUserId,

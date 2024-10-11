@@ -2,27 +2,27 @@ import { InferSchemaType, model, Schema } from "mongoose";
 
 const eventSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, required: true },
-    name: { type: String, required: true },
-    image: { type: String, required: true },
-    url: { type: String, required: true },
-    type: { type: String, required: true },
+    name: { type: String },
+    image: { type: String },
+    url: { type: String },
+    type: { type: String },
     info: { type: String },
     date: {
-        localDate: { type: String, required: true },
-        localTime: { type: String, required: true },
-        timezone: { type: String, required: true }
+        localDate: { type: String },
+        localTime: { type: String },
+        timezone: { type: String }
     },
     venue: {
-        name: { type: String, required: true },
-        city: { type: String, required: true },
-        country: { type: String, required: true }
+        name: { type: String },
+        city: { type: String },
+        country: { type: String }
     },
-    classifications: { type: [String], required: true },
+    classifications: { type: [String] },
     priceRanges: {
-        type: { type: String, required: true },
-        currency: { type: String, required: true },
-        min: { type: Number, required: true },
-        max: { type: Number, required: true }
+        type: { type: String },
+        currency: { type: String },
+        min: { type: Number },
+        max: { type: Number }
     },
     review: { type: String },
 }, { timestamps: true });
