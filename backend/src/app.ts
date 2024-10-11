@@ -1,5 +1,7 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
+import swaggerUi from "swagger-ui-express";
+import swaggerSetup from "./docs/swagger";
 import eventsRoutes from "./routes/event";
 import userRoutes from "./routes/user";
 import morgan from 'morgan';
@@ -30,6 +32,7 @@ app.use(session({
 
 app.use("/api/users", userRoutes);
 app.use("/api/events", requiresAuth, eventsRoutes);
+app.use("/documentation",swaggerUi.serve, swaggerUi.setup(swaggerSetup))
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
