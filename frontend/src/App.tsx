@@ -4,6 +4,8 @@ import LoginModal from "./components/Auth/LoginModal";
 import SignUpModal from "./components/Auth/SignUpModal";
 import { User } from "./models/user";
 import Navbar from "./components/NavBar/Navbar";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import EventPage from "./pages/events";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -13,7 +15,6 @@ function App() {
   useEffect(() => {
 	async function fetchLoggedInUser() {
 		try {
-
 			const user = await UsersApi.getLogInUser();
 			setLoggedInUser(user);
 		} catch (error) {
@@ -24,7 +25,7 @@ function App() {
   }, []);
 
   return (
-	<div>
+	<BrowserRouter>
 		<Navbar
 		  loggedInUser={loggedInUser}
 		  onLoginClicked={() => {
@@ -37,6 +38,9 @@ function App() {
 		  }}
 		  onLogoutSuccessful={() => setLoggedInUser(null)}
 		/>
+		<Routes>
+		  <Route path="/" element={<EventPage loggedInUser={loggedInUser}/>}/>
+		</Routes>
 		{showSignUpModal && (
 		  <SignUpModal
 			onDismiss={() => setShowSignUpModal(false)}
@@ -55,7 +59,8 @@ function App() {
 			}}
 		  />
 		)}
-	</div>
+
+	</BrowserRouter>
   );
 }
 
