@@ -3,17 +3,45 @@ import * as EventController from "../controllers/event";
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /events/all:
+ *   get:
+ *     tags:
+ *       - events
+ *     summary: Retrieve all events
+ *     description: Retrieve a list of all events.
+ *     responses:
+ *         '200':
+ *           description: Successful operation
+ *           content:
+ *               application/json:
+ *                 schema:
+ *                   $ref: '#/components/schemas/event'          
+ *               application/xml:
+ *                schema:
+ *                   $ref: '#/components/schemas/event'
+ *     security:
+ *       - basicAuth: []
+ */
 router.get("/all", EventController.getAllEvents);
 
 /**
  * Get events
  * @swagger
- * /events:
+ * /events/{page}:
  *    get:
  *      tags:
  *        - events
- *      summary: "List all events"
- *      description: This endpoint will list all the events.
+ *      summary: "List all events by page"
+ *      description: This endpoint will list all the events by page.
+ *      parameters:
+ *       - name: page
+ *         in: get
+ *         description: page
+ *         required: true
+ *         schema:
+ *           type: string
  *      requestBody:
  *       content:
  *         application/json:
