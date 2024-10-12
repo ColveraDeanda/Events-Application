@@ -7,18 +7,30 @@ import Swal from "sweetalert2";
 import EventsGrid from "../components/EventsGrid";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorAlert from "../components/ErrorAlert";
+import PaginationControls from "../components/PaginationControls";
+import { useNavigate } from 'react-router-dom';
 
 interface FavoritePageProps {
   loggedInUser: User | null;
 }
 
 const FavoritePage = ({ loggedInUser }: FavoritePageProps) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate("/");
+    }
+  }, [loggedInUser, navigate]);
+
   const [events, setEvents] = useState<EventModel[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
   const [showEventsLoadingError, setShowEventsLoadingError] = useState(false);
   const [showEventInfo, setShowEventInfo] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<EventModel | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(0);
+  const firsPage = 1;
 
   const fetchEvents = useCallback(async (page: number) => {
     try {
@@ -26,6 +38,7 @@ const FavoritePage = ({ loggedInUser }: FavoritePageProps) => {
       setEventsLoading(true);
       const { events, totalPages } = await EventApi.getEvents(page);
       setEvents(events);
+      setLastPage(totalPages);
     } catch (error) {
       console.error("Error fetching events:", error);
       setShowEventsLoadingError(true);
@@ -37,6 +50,9 @@ const FavoritePage = ({ loggedInUser }: FavoritePageProps) => {
   useEffect(() => {
     fetchEvents(currentPage);
   }, [currentPage, fetchEvents]);
+
+  const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => prev + 1);
 
   async function deleteEvent(event: EventModel) {
     try {
@@ -74,7 +90,7 @@ const FavoritePage = ({ loggedInUser }: FavoritePageProps) => {
                 }}
               />
             ) : (
-              <p className="text-center text-2xl">No events found</p>
+              <ErrorAlert message="No results found" />
             )}
           </>
         )}
@@ -93,6 +109,15 @@ const FavoritePage = ({ loggedInUser }: FavoritePageProps) => {
           />
         )}
       </div>
+      {!showEventsLoadingError && (
+        <PaginationControls
+          firstPage={firsPage}
+          currentPage={currentPage}
+          lastPage={lastPage}
+          onPreviousPage={handlePreviousPage}
+          onNextPage={handleNextPage}
+        />
+      )}
     </div>
   );
 };

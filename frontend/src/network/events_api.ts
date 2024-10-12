@@ -121,3 +121,4 @@ export async function deleteEvent(eventId: string): Promise<void>{
     await fetchData(`/api/events/${eventId}`, {method: "DELETE"});
 }
 
+

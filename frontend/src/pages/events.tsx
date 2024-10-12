@@ -5,6 +5,8 @@ import { Event as EventModel } from "../models/event";
 import EventInfoModal from "../components/Landing/EventInfo";
 import EventsGrid from "../components/EventsGrid";
 import LoadingSpinner from "../components/LoadingSpinner";
+import PaginationControls from "../components/PaginationControls";
+import EventFilter from "../components/EventFilters";
 import ErrorAlert from "../components/ErrorAlert";
 
 interface EventsPageProps {
@@ -18,8 +20,10 @@ const EventsPage = ({ loggedInUser }: EventsPageProps) => {
   const [showEventInfo, setShowEventInfo] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<EventModel | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const country = "MX";   // TODO: Filter by country.
-  const searchTerm = "";  // TODO: Filter by term.
+  const [lastPage, setLastPage] = useState(0);
+  const [country, setCountry] = useState("MX");
+  const [searchTerm, setSearchTerm] = useState("");
+  const firsPage = 0;
 
   const fetchEvents = useCallback(
     async (page: number, country: string, searchTerm: string) => {
@@ -32,6 +36,7 @@ const EventsPage = ({ loggedInUser }: EventsPageProps) => {
           searchTerm
         );
         setEvents(data.events);
+        setLastPage(data.pageInfo.totalPages - 1);
       } catch (error) {
         setShowEventsLoadingError(true);
       } finally {
@@ -45,11 +50,23 @@ const EventsPage = ({ loggedInUser }: EventsPageProps) => {
     fetchEvents(currentPage, country, searchTerm);
   }, [currentPage, country, searchTerm, fetchEvents]);
 
+  const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
+  const handleNextPage = () => setCurrentPage((prev) => prev + 1);
+
   return (
     <div className="min-h-[calc(100vh-100px)] flex flex-col text-white mb-4 mt-4">
+      <EventFilter
+        searchTerm={searchTerm}
+        country={country}
+        onSearch={(searchTerm, country) => {
+          setSearchTerm(searchTerm);
+          setCountry(country);
+          setCurrentPage(0);
+        }}
+      />
       <div className="flex-grow container mx-auto px-4">
         {eventsLoading && <LoadingSpinner />}
-        {showEventsLoadingError && <ErrorAlert message="No results found" />}
+        {showEventsLoadingError && <ErrorAlert message="No results found, try again later" />}
         {!eventsLoading && !showEventsLoadingError && (
           <>
             {events.length > 0 ? (
@@ -61,7 +78,7 @@ const EventsPage = ({ loggedInUser }: EventsPageProps) => {
                 }}
               />
             ) : (
-              <p className="text-center text-2xl">No events found</p>
+              <ErrorAlert message="No results found, try again later" />
             )}
           </>
         )}
@@ -76,6 +93,15 @@ const EventsPage = ({ loggedInUser }: EventsPageProps) => {
           />
         )}
       </div>
+      {!showEventsLoadingError && (
+        <PaginationControls
+          firstPage={firsPage}
+          currentPage={currentPage}
+          lastPage={lastPage}
+          onPreviousPage={handlePreviousPage}
+          onNextPage={handleNextPage}
+        />
+      )}
     </div>
   );
 };

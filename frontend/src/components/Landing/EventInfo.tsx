@@ -60,10 +60,10 @@ const EventInfoModal = ({ isLogged, event, onDismiss }: EventInfoModalProps) => 
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 sm:p-8"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 sm:p-8 z-20 overflow-auto"
             onClick={handleBackdropClick}
         >
-            <div className="bg-gray-800 p-4 sm:p-8 rounded-lg w-full max-w-3xl relative">
+            <div className="bg-gray-800 p-4 sm:p-8 rounded-lg w-full max-w-3xl relative sm:mt-0 mt-72">
                 <button
                     className="absolute top-2 right-2 text-white"
                     onClick={onDismiss}

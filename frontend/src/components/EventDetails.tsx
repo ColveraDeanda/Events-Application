@@ -17,17 +17,22 @@ const EventDetails = ({ event }: EventDetailsProps) => {
 
   return (
     <div className="flex flex-col sm:flex-row items-center mb-4">
-      <img
-        src={event.image}
-        alt={event.name}
-        className="w-full sm:w-1/3 h-auto object-cover mb-4 sm:mb-0 sm:mr-4"
-      />
       <div className="text-center sm:text-left">
-        <h2 className="text-2xl font-semibold text-white">{event.name}</h2>
-        <p className="text-gray-300">{event.venue.name}</p>
-        <p className="text-gray-300">
-          {event.venue.city}, {event.venue.country}
-        </p>
+        <div className="flex flex-col sm:flex-row items-center sm:items-start">
+          <img
+            src={event.image}
+            alt={event.name}
+            className="w-full sm:w-1/3 h-auto object-cover mb-4 sm:mb-0 sm:mr-4"
+          />
+          <div className="flex flex-col">
+            <h2 className="text-2xl font-semibold text-white">{event.name}</h2>
+            <p className="text-gray-300">{event.venue.name}</p>
+            <p className="text-gray-300">
+              {event.venue.city}, {event.venue.country}
+            </p>
+          </div>
+        </div>
+
         <div className="mt-4">
           <p className="text-gray-300">Date:</p>
           <p className="text-white">
@@ -43,26 +48,31 @@ const EventDetails = ({ event }: EventDetailsProps) => {
         )}
         <div className="mt-2">
           <p className="text-gray-300">Price:</p>
-            <p className="text-white">
+          <p className="text-white">
             {event.priceRanges.min === event.priceRanges.max
               ? `$${event.priceRanges.min} ${event.priceRanges.currency}`
               : `$${event.priceRanges.min} - $${event.priceRanges.max} ${event.priceRanges.currency}`}
-            </p>
+          </p>
         </div>
         <div className="mt-2">
           <p className="text-gray-300">Classifications:</p>
           <div className="text-white">
-            {Array.from(new Set(event.classifications.filter((classification) => classification !== "Undefined")))
-              .map((classification, index) => (
-                <span
-                  key={index}
-                  className={`inline-block ${
-                    COLORS[index % COLORS.length]
-                  } text-xs px-2 py-1 rounded-full mr-2 mb-2`}
-                >
-                  {classification}
-                </span>
-              ))}
+            {Array.from(
+              new Set(
+                event.classifications.filter(
+                  (classification) => classification !== "Undefined"
+                )
+              )
+            ).map((classification, index) => (
+              <span
+                key={index}
+                className={`inline-block ${
+                  COLORS[index % COLORS.length]
+                } text-xs px-2 py-1 rounded-full mr-2 mb-2`}
+              >
+                {classification}
+              </span>
+            ))}
           </div>
         </div>
       </div>

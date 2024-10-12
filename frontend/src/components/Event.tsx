@@ -9,7 +9,7 @@ const EventCard = ({ event, onClick }: EventProps) => {
     const { name, venue: { city }, image, date: { localDate } } = event;
     return (
       <div
-        className="flex flex-col items-center bg-gray-800 shadow-md rounded-lg overflow-hidden text-center cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out"
+        className="flex flex-col items-center bg-gray-800 shadow-md rounded-lg overflow-hidden text-center cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out fade-in-up"
         onClick={onClick}
       >
         <img

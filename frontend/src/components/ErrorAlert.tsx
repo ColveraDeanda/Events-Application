@@ -4,7 +4,7 @@ interface ErrorAlertProps {
 
 const ErrorAlert = ({ message }: ErrorAlertProps) => {
   return (
-    <div className="text-center text-red-500">
+    <div className="text-center text-2xl mt-5">
       <p>{message}</p>
     </div>
   );
