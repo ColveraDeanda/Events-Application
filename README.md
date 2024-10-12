@@ -5,7 +5,16 @@
 MongoDB, Express.js, React, Node.js
 </p>
 
-La app de TicketMaster te permite explorar eventos en México y EE. UU., con detalles completos para ayudarte a decidir. Al iniciar sesión, puedes agregar eventos a tus favoritos y dejar reseñas. Es ideal para quienes disfrutan asistir a varios eventos y quieren mantener un registro de sus experiencias.
+La app de TicketMaster te permite explorar eventos, con detalles completos para ayudarte a decidir. Al iniciar sesión, puedes agregar eventos a tus favoritos y dejar reseñas. Es ideal para quienes disfrutan asistir a muchos eventos y quieren mantener un registro de sus experiencias.
+
+## Funcionalidades principales
+ - Registro de usuarios e inicio de sesión: Permite a los usuarios crear una cuenta y acceder a su perfil de manera segura.
+ - Visualización de eventos: Ofrece una interfaz clara para explorar una amplia variedad de eventos disponibles.
+ - Filtro de eventos en México y EE. UU.: Facilita la búsqueda de eventos permitiendo al usuario seleccionar entre opciones de ambos países.
+ - Barra de búsqueda de eventos: Incluye una función de búsqueda que permite a los usuarios encontrar eventos específicos rápidamente.
+ - Favoritos al iniciar sesión: Los usuarios pueden agregar eventos a su lista de favoritos al iniciar sesión, personalizando su experiencia.
+ - Gestión de favoritos: Permite a los usuarios actualizar o eliminar eventos de su lista de favoritos según sus preferencias.
+ - Paginación: Implementa un sistema de paginación para facilitar la navegación a través de grandes cantidades de eventos, mejorando la experiencia del usuario.
 
 ## Clonar
 ```terminal
@@ -54,3 +63,28 @@ $ npm start
  - REACT_APP_TICKETMASTER_API = https://app.ticketmaster.com/discovery/v2/events.json?apikey={API_KEY}
 
 **Dirigirse a la página [página de TicketMaster](https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/) para generar la API KEY**
+
+## Screenshots TicketMaster App
+
+### Página principal
+![image](https://github.com/user-attachments/assets/fe72f9dc-e4cb-4140-bb16-1a4b9e6253e8)
+
+### Registrarse
+![image](https://github.com/user-attachments/assets/88e316db-b29c-4534-8f96-d612db7368ba)
+
+### Iniciar sesión
+![image](https://github.com/user-attachments/assets/8be05c9e-081f-4be2-8333-7e9271936d4f)
+
+### Detalle de evento
+![image](https://github.com/user-attachments/assets/2d7029aa-7b2e-41b9-96d9-5502db248cd6)
+
+### Favoritos
+![image](https://github.com/user-attachments/assets/72132297-7e84-422a-891b-2329b949d03a)
+
+### Paginación
+![image](https://github.com/user-attachments/assets/0106fd41-80af-48d5-ad4b-7477bb0e2a0d)
+
+
+
+
+
